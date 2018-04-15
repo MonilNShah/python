@@ -27,16 +27,20 @@ class Appoint_med(forms.ModelForm):
     m4_times_a_day=forms.CharField(required=False, widget=forms.Select(choices=[]))
     m5_times_a_day=forms.CharField(required=False, widget=forms.Select(choices=[]))
     '''
-    # m1=forms.CharField(required=True, widget=forms.Select(choices=[]))
+    u_id=forms.CharField(required=True, widget=forms.Select(choices=[]))
+    Med_1=forms.CharField(required=True, widget=forms.Select(choices=[]))
     class Meta:
         model=historydata
         fields = (
             'u_id',
-            'date',
             'Med_1',
             'm1_days',
             'm1_times_a_day',
+            'description'
             )
+    '''def __init__(self,*args,**kwargs):
+        super(Appoint_med,self).__init__(*args,**kwargs)'''
+        # Med_1=medicine.objects.all()
 
 '''Med_2',
             'm2_days',

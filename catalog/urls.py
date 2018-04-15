@@ -41,7 +41,10 @@ urlpatterns = [
     url(r'^viewapoint/(\w+)',views.patientdetail, name='patientdetail'),
     url(r'^cancelapoint/$',views.cancelapoint,name='cancelapoint'),
     url(r'^givemedicine/$',views.givemed,name='givemedicine'),
-    
+    url(r'^history/$',views.history,name='history'),
+    url(r'^myappoint/$',views.myappoint,name='myappoint'),
+    url(r'^history/(?P<date>[A-Za-z]?%20[0-9]{2}?%20[0-9]{4})/$', views.tests, name='index'),
+
     url(r'^ajax/slots/$', views.load_slots, name='ajax_load_slots'),
     url(r'^ajax/finalslots/$', views.load_finalslots, name='ajax_load_finalslots'),
     url(r'login/$', auth_views.login, {'template_name': 'login.html'},name='login'),

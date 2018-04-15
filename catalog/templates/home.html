@@ -5,6 +5,19 @@
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+
+
+
+ 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+	<script src="https://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="https://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 	<!--
 			<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
 			<script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
@@ -42,48 +55,57 @@
 	
 	<!-- ====================================================
 	header section -->
-	<header class="top-header">
-		<div class="container">
-			<div class="row">
-				<div class="col-xs-2 header-logo">
-					<br>
-					<a href="main_base.html"><img src="{% static 'main/img/logo.png' %}" alt="" class="img-responsive logo"></a>
-				</div>
+	  <header class="top-header">
+    <div class="container">
+      <div class="row">
+        <div class="col-xs-2 header-logo">
+          <br>
+          <a href="main_base.html"><img src="{% static 'main/img/logo.png' %}" alt="" class="img-responsive logo"></a>
+        </div>
 
-				<div class="col-md-10">
-					<nav class="navbar navbar-default">
-					  <div class="container-fluid nav-bar">
-					    <!-- Brand and toggle get grouped for better mobile display -->
-					    <div class="navbar-header">
-					      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-					        <span class="sr-only">Toggle navigation</span>
-					        <span class="icon-bar"></span>
-					        <span class="icon-bar"></span>
-					        <span class="icon-bar"></span>
-					        <span class="icon-bar"></span>
-					        <span class="icon-bar"></span>
-					      </button>
-					    </div>
+        <div class="col-md-10">
+          <nav class="navbar navbar-default">
+            <div class="container-fluid nav-bar">
+              <!-- Brand and toggle get grouped for better mobile display -->
+              <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                  <span class="sr-only">Toggle navigation</span>
+                  <span class="icon-bar"></span>
+                  <span class="icon-bar"></span>
+                  <span class="icon-bar"></span>
+                  <span class="icon-bar"></span>
+                  <span class="icon-bar"></span>
+                  <span class="icon-bar"></span>
+                </button>
+              </div>
 
-					    <!-- Collect the nav links, forms, and other content for toggling -->
-					    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-							<ul class="nav navbar-nav navbar-left">
-					        <li><a class="menu active" href="{% url 'home' %}">Home</a></li>
-					        <li><a class="menu" href="{% url 'aboutus' %}">About us</a></li>
-					        <li><a class="menu" href="{% url 'service' %}">Our Services </a></li>
-					        <li><a class="menu" href="{% url 'team' %}">Our Team</a></li>
-					        {% if user.is_authenticated %}
-					        	{% if Patient_logged_in %}
-					        		 <li><a class="menu" href="{% url 'takeapoint' %}"> Take Appointment</a></li>
-					        		 <li><a class="menu" href="{% url 'cancelapoint' %}"> Cancel Appointment</a></li>
-					        		 <li><a class="menu" href="#history"> History</a></li>
-					        	{% endif %}
-					        	{% if Doctor_logged_in %}
-					        		 <li><a class="menu" href="#givemed">Give Medicine</a></li>
-					        		  <li><a class="menu" href="{% url 'viewapoint'%}">View Appointment</a></li>
-					        	{% endif %}
-					        	<li><a class="menu" href="{% url 'contact' %}"> Contact Us</a></li>
-					        </ul>
+              <!-- Collect the nav links, forms, and other content for toggling -->
+              <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+              <ul class="nav navbar-nav navbar-left">
+                  <li><a class="menu active" href="{% url 'home' %}">Home</a></li>
+                  <li><a class="menu" href="{% url 'aboutus' %}">About us</a></li>
+                  <li><a class="menu" href="{% url 'service' %}">Specialities</a></li>
+                  <li><a class="menu" href="{% url 'team' %}">Our Team</a></li>
+                  {% if user.is_authenticated %}
+                    {% if Patient_logged_in %}
+                         <li class="dropdown">
+                              <button class="dropbtn">Appointment</button>
+                                <div class="dropdown-content">
+                                    <ul class="dropdown1"> 
+                                        <li><a class ="menu" href="{% url 'takeapoint' %}">Make Appointment</a></li>
+                                        <li><a  class ="menu" href="{% url 'cancelapoint' %}">Cancel Appointment</a></li>
+                                        <li><a class ="menu" href="{% url 'myappoint' %}">My Appointments</a></li>
+                                    </ul>
+                                </div> 
+                        </li>
+                       <li><a class="menu" href="{% url 'history' %}"> History</a></li>
+                    {% endif %}
+                    {% if Doctor_logged_in %}
+                       <li><a class="menu" href="{% url 'givemedicine' %}">Give Medicine</a></li>
+                        <li><a class="menu" href="{% url 'viewapoint'%}">View Appointment</a></li>
+                    {% endif %}
+                    <li><a class="menu" href="{% url 'contact' %}"> Contact Us</a></li>
+                  </ul>
 					        <ul class="nav navbar-nav navbar-right">
 					        	<li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href=""><span class="glyphicon glyphicon-log-out" ></span>
 								    <span class="caret"></span></a>
@@ -97,19 +119,35 @@
 											  </div>
 											</div>-->
 
-								        	<div class="card" style="width:250px">
-								        		<div class="w3-container w3-center"> 
-								        			<div class="text-center">
-												    	<img class="card-img-center" src="{{ Patient_logged_in.0.Profile_pic.url }}" alt="Card image"   style="width:80%" >
-													</div>
-													<div class="container">
-														    <h4><b>{{ user.get_username }}</b></h4> 
-														    <div class="float-right"> 
-														     		<a href="{%url 'logout'%}" class="btn btn-primary float-right">Logout</a>
-														  	</div>
-													</div>
-												</div>
-											 </div>
+									{% if Patient_logged_in %}
+		                          <div class="card" style="width:250px">
+		                            <div class="w3-container w3-center"> 
+		                              <div class="text-center">
+		                              <img class="card-img-center" src="{{ Patient_logged_in.0.Profile_pic.url }}" alt="Card image"   style="width:80%" >
+		                          </div>
+		                        {% endif %}
+		                        {% if Doctor_logged_in %}
+		                          <div class="card" style="width:250px">
+		                            <div class="w3-container w3-center"> 
+		                              <div class="text-center">
+		                              <img class="card-img-center" src="{{ Doctor_logged_in.0.Profile_pic.url }}" alt="Card image"   style="width:80%" >
+		                          </div>
+		                        {% endif %}
+		                        {% if Staff_logged_in %}
+		                          <div class="card" style="width:250px">
+		                            <div class="w3-container w3-center"> 
+		                              <div class="text-center">
+		                              <img class="card-img-center" src="{{ Staff_logged_in.0.Profile_pic.url }}" alt="Card image"   style="width:80%" >
+		                          </div>
+		                        {% endif %}
+		                          <div class="container">
+		                                <h4><b>{{ user.get_username }}</b></h4> 
+		                                <div class="float-right"> 
+		                                    <a href="{%url 'logout'%}" class="btn btn-primary float-right">Logout</a>
+		                                </div>
+		                          </div>
+		                        </div>
+		                       </div>
 											 <!--
 								         	<li role="presentation"><a role="menuitem">Signed In as</a></li>
 									      	<li role="presentation"><a role="menuitem" tabindex="-1"> {{ user.get_username }}</a></li>

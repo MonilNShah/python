@@ -1,13 +1,14 @@
 from django.shortcuts import render,redirect,get_object_or_404
 from django.shortcuts import render,redirect
 from django.http import HttpResponse
-from .models import Patient,Slots,Doctor,Appointment,Staff,medicine
+from .models import Patient,Slots,Doctor,Appointment,Staff,medicine,historydata
 from django.contrib.auth.decorators import login_required
 from .form import RegistrationForm,RegistrationForm2,apointForm, cancelForm,Appoint_med
 from django.contrib.auth.models import User as User
 import datetime
 import time
 from django.contrib import messages
+import operator
 
 '''from django.views import generic
 
@@ -48,7 +49,7 @@ def tests(request):
         )
 
 
-
+@login_required
 def givemed(request):
     # List=['','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','']
     List=[]
@@ -64,15 +65,17 @@ def givemed(request):
     Doctor_logged_in=Doctor.objects.none()
     Patient_logged_in=Patient.objects.none()
     if u:
+        return redirect('/home/')
         Patient_logged_in=u
         print("Logged In user is Patient")
     if doctor:
         Doctor_logged_in=doctor
         print("Logged In User Is Doctor")
+        print(Doctor_logged_in)
     print(Patient_logged_in)
     apoint_form=Appoint_med()
     print(apoint_form)
-    d=medicine.objects.all()
+    d=medicine.objects.none()
     a=Appointment.objects.all()
     us=User.objects.all()
     # print("Doctors Id",doctor[0].id)
@@ -89,29 +92,151 @@ def givemed(request):
     if request.method == 'POST':
         apoint_form1 =Appoint_med(request.POST)
         # print(apoint_form1)
-        print(apoint_form1)
+        # print(apoint_form1)
         uid=request.POST['u_id']
         m=request.POST['Med_1']
         print(m)
         print(uid)
-        apoint_form1.u_id=User.objects.filter(username=uid)
-        # print(apoint_form1.u_id)
-        # print(apoint_form1.Med_1)
-        apoint_form1.Med_1=medicine.objects.filter(medicine_name=m)
-        print(apoint_form1.Med_1)
+        # user1.Doctor_id_id=Doctor.objects.filter(First_Name=value).values('id')[0]['id']
         print(apoint_form1)
         # print(apoint_form)
         if apoint_form1.is_valid():
             u=apoint_form1.save(commit=False)
+            uuid=User.objects.filter(username=uid)
+            print(uuid)
+            # print(apoint_form1.Med_1)
+            # user1.Doctor_id_id=Doctor.objects.filter(First_Name=value).values('id')[0]['id'] 
+            print(request.user.id)
+            u.Doctor_id=request.user
+            u.date=current_date
+            print(u.Doctor_id)
+            # apoint_form1.description=" "
             print("Registered")
             u.save()
         else:
             print(" Not Registered Invalid")
+    d=medicine.objects.all()
     return render(
         request,
         'givemedicine.html',
         context={'user':today_apoint,'Appoint_med':apoint_form,'medicine':d,'Doctor_logged_in':Doctor_logged_in,'Patient_logged_in':Patient_logged_in}
     )
+
+
+def history(request):
+    username=request.user
+    print(username.id)
+    d=Doctor.objects.filter(u_id=username.id)
+    u=Patient.objects.filter(u_id=username.id)
+    print(d)
+    print(u)
+    print(username.id)
+    Doctor_logged_in=Doctor.objects.none()
+    Patient_logged_in=Patient.objects.none()
+    if u:
+        Patient_logged_in=u
+        print("Logged In user is Patient")
+    if d:
+        return redirect('/home/')
+        Doctor_logged_in=d
+        print("Logged In User Is Doctor")
+    print(Patient_logged_in)
+    logu=request.user
+    App=historydata.objects.filter(u_id=logu).order_by('-date')
+    print(App)
+    if request.method=='POST':
+                value=request.POST['date']
+                value2=request.POST['doctor_name']
+                print(value2)
+                print(value)
+                if value and request.POST['doctor_name']==" ":
+                    print("Inside Date")
+                    value=request.POST['date']
+                    print(value)
+                    App=historydata.objects.filter(u_id=logu).filter(date=value).distinct()
+                elif not value and request.POST['doctor_name']!= " ":
+                    print("Inside Doctors")
+                    value2=request.POST['doctor_name']
+                    App=historydata.objects.filter(u_id=logu).filter(Doctor_id=value2).distinct().order_by('-date')
+                elif request.POST['doctor_name']!=" " and value:
+                    print("Inside BOth")
+                    App=historydata.objects.filter(u_id=logu).filter(Doctor_id=value2).filter(date=value)
+    # App=sorted(auths,key=operator.attrgetter('date'))
+    print(App)
+    doctors=Doctor.objects.all()
+    return render(
+            request,
+            'history.html',
+            context={'App':App,'Doctor_logged_in':Doctor_logged_in,'Patient_logged_in':Patient_logged_in,'doctors':doctors}
+        )
+
+
+
+def myappoint(request):
+    username=request.user
+    print(username.id)
+    d=Doctor.objects.filter(u_id=username.id)
+    u=Patient.objects.filter(u_id=username.id)
+    print(d)
+    print(u)
+    print(username.id)
+    Doctor_logged_in=Doctor.objects.none()
+    Patient_logged_in=Patient.objects.none()
+    if u:
+        Patient_logged_in=u
+        print("Logged In user is Patient")
+    if d:
+        return redirect('/home/')
+        Doctor_logged_in=d
+        print("Logged In User Is Doctor")
+    print(Patient_logged_in)
+    logu=request.user
+    doctors=Doctor.objects.all()
+    App=Appointment.objects.filter(u_id=logu).order_by('-Date')
+    print(App)
+    if request.method=='POST':
+                value=request.POST['date']
+                value2=request.POST['doctor_name']
+                print(value2)
+                print(value)
+                if value and request.POST['doctor_name']==" ":
+                    print("Inside Date")
+                    value=request.POST['date']
+                    print(value)
+                    App=Appointment.objects.filter(u_id=logu).filter(Date=value).distinct()
+                    return render(
+                                        request,
+                                        'myappoint.html',
+                                        context={'App':App,'Doctor_logged_in':Doctor_logged_in,'Patient_logged_in':Patient_logged_in,'doctors':doctors}
+                                    )
+                elif not value and request.POST['doctor_name']!= " ":
+                    print("Inside Doctors")
+                    value2=request.POST['doctor_name']
+                    us=User.objects.filter(username=value2)
+                    App=Appointment.objects.filter(u_id=logu).filter(Doctor_id=us[0].id).distinct().order_by('-date')
+                    return render(
+                                    request,
+                                    'myappoint.html',
+                                    context={'App':App,'Doctor_logged_in':Doctor_logged_in,'Patient_logged_in':Patient_logged_in,'doctors':doctors}
+                                )
+                elif request.POST['doctor_name']!=" " and value:
+                    print("Inside BOth")
+                    value2=request.POST['doctor_name']
+                    us=User.objects.filter(username=value2)
+                    App=Appointment.objects.filter(u_id=logu).filter(Doctor_id=us[0].id).filter(Date=value)
+                    return render(
+                                    request,
+                                    'myappoint.html',
+                                    context={'App':App,'Doctor_logged_in':Doctor_logged_in,'Patient_logged_in':Patient_logged_in,'doctors':doctors}
+                                )
+    # App=sorted(auths,key=operator.attrgetter('date'))
+    print(App)
+    doctors=Doctor.objects.all()
+    return render(
+            request,
+            'myappoint.html',
+            context={'App':App,'Doctor_logged_in':Doctor_logged_in,'Patient_logged_in':Patient_logged_in,'doctors':doctors}
+        )
 
 
 
@@ -470,7 +595,18 @@ def takeapoint(request):
                             request,
                             'apoint.html',
                             context={'Staff_logged_in':Staff_logged_in,'slots_time':slots_time,'apoint':apoint,'doctors':doctors,'Doctor_logged_in':Doctor_logged_in,'Patient_logged_in':Patient_logged_in}
-                             )       
+                             )     
+            doc=Doctor.objects.filter(First_Name=value).values('id')[0]['id'] 
+            uid=request.user 
+            app=Appointment.objects.filter(Doctor_id=doc).filter(Date=value3).filter(u_id=uid.id)
+            if(app):
+                messages.warning(request, 'You Already Have An Appointment For That Date Please Cancel That Appointment To Take Another!!!!!!!')
+                return render(
+                            request,
+                            'apoint.html',
+                            context={'Staff_logged_in':Staff_logged_in,'slots_time':slots_time,'apoint':apoint,'doctors':doctors,'Doctor_logged_in':Doctor_logged_in,'Patient_logged_in':Patient_logged_in}
+                             )  
+            print(app)  
             user1.Date=value3
             user1.Doctor_id_id=Doctor.objects.filter(First_Name=value).values('id')[0]['id'] 
             user1.Slot_Time_id=Slots.objects.filter(Slot_Time=dt).values('id')[0]['id'] 

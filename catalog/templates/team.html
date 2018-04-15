@@ -67,67 +67,96 @@
 
 					    <!-- Collect the nav links, forms, and other content for toggling -->
 					    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-							<ul class="nav navbar-nav navbar-left">
-					        <li><a class="menu" href="{% url 'home' %}">Home</a></li>
-					        <li><a class="menu" href="{% url 'aboutus' %}">About us</a></li>
-					        <li><a class="menu" href="{% url 'service' %}">Our Services </a></li>
-					        <li><a class="menu active" href="{% url 'team' %}">Our Team</a></li>
-					        {% if user.is_authenticated %}
-					        	{% if Patient_logged_in %}
-					        		 <li><a class="menu" href="{% url 'takeapoint' %}"> Take Appointment</a></li>
-					        		 <li><a class="menu" href="{% url 'takeapoint' %}"> Cancel Appointment</a></li>
-					        		 <li><a class="menu" href="#history"> History</a></li>
-					        	{% endif %}
-					        	{% if Doctor_logged_in %}
-					        		 <li><a class="menu" href="#givemed">Give Medicine</a></li>
-					        		  <li><a class="menu" href="{% url 'viewapoint'%}">View Appointment</a></li>
-					        	{% endif %}
-					        	<li><a class="menu" href="{% url 'contact' %}"> Contact Us</a></li>
-					        </ul>
-					        <ul class="nav navbar-nav navbar-right">
-					        	<li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href=""><span class="glyphicon glyphicon-log-out" ></span>
-								    <span class="caret"></span></a>
-								        <ul class="dropdown-menu">
-								        	<!--<div class="card">
-											  <img src="{{ Patient_logged_in.0.Profile_pic.url }}" alt="Card image"  style="width:50%">
-											  <div class="container">
-											    <h4><b>{{ user.get_username }}</b></h4> 
-											    <p>Architect & Engineer</p> 
-											     <a href="{%url 'logout'%}" class="btn btn-primary float-right">Logout</a>
-											  </div>
-											</div>-->
+                
+                <ul class="nav navbar-nav navbar-left">
+                  <li><a class="menu " href="{% url 'home' %}">Home</a></li>
+                  <li><a class="menu " href="{% url 'aboutus' %}">About Us</a></li>
+                  <li><a class="menu" href="{% url 'service' %}">Specialities </a></li>
+                  <li><a class="menu active" href="{% url 'team' %}">Our Team</a></li>
+                  {% if user.is_authenticated %}
+                    {% if Patient_logged_in %}
+                         <li class="dropdown">
+                              <button class="dropbtn">Appointment</button>
+                                <div class="dropdown-content">
+                                    <ul class="dropdown1"> 
+                                        <li><a class ="menu" href="{% url 'takeapoint' %}">Make Appointment</a></li>
+                                        <li><a  class ="menu" href="{% url 'cancelapoint' %}">Cancel Appointment</a></li>
+                                        <li><a class ="menu" href="{% url 'myappoint'%}">My Appointments</a></li>
+                                    </ul>
+                                </div> 
+                        </li>
+                       <li><a class="menu" href="{% url 'history' %}"> History</a></li>
+                    {% endif %}
+                    {% if Doctor_logged_in %}
+                       <li><a class="menu" href="{% url 'givemedicine' %}">Give Medicine</a></li>
+                      <li><a class="menu" href="{% url 'viewapoint'%}">View Appointment</a></li>
+                    {% endif %}
+                    {% if Staff_logged_in %}
+                           <li><a class="menu active " href="{% url 'viewapoint'%}">View Appointment</a></li>
+                    {% endif %}
+                    <li><a class="menu" href="{% url 'contact' %}"> Contact Us</a></li>
+                  </ul>
+                 <ul class="nav navbar-nav navbar-right">
+                    <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href=""><span class="glyphicon glyphicon-log-out" ></span>
+                    <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                          <!--<div class="card">
+                        <img src="{{ Patient_logged_in.0.Profile_pic.url }}" alt="Card image"  style="width:50%">
+                        <div class="container">
+                          <h4><b>{{ user.get_username }}</b></h4> 
+                          <p>Architect & Engineer</p> 
+                           <a href="{%url 'logout'%}" class="btn btn-primary float-right">Logout</a>
+                        </div>
+                      </div>-->
+                       {% if Patient_logged_in %}
+                          <div class="card" style="width:250px">
+                            <div class="w3-container w3-center"> 
+                              <div class="text-center">
+                              <img class="card-img-center" src="{{ Patient_logged_in.0.Profile_pic.url }}" alt="Card image"   style="width:80%" >
+                          </div>
+                        {% endif %}
+                        {% if Doctor_logged_in %}
+                          <div class="card" style="width:250px">
+                            <div class="w3-container w3-center"> 
+                              <div class="text-center">
+                              <img class="card-img-center" src="{{ Doctor_logged_in.0.Profile_pic.url }}" alt="Card image"   style="width:80%" >
+                          </div>
+                        {% endif %}
+                        {% if Staff_logged_in %}
+                          <div class="card" style="width:250px">
+                            <div class="w3-container w3-center"> 
+                              <div class="text-center">
+                              <img class="card-img-center" src="{{ Staff_logged_in.0.Profile_pic.url }}" alt="Card image"   style="width:80%" >
+                          </div>
+                        {% endif %}
+                          <div class="container">
+                                <h4><b>{{ user.get_username }}</b></h4> 
+                                <div class="float-right"> 
+                                    <a href="{%url 'logout'%}" class="btn btn-primary float-right">Logout</a>
+                                </div>
+                          </div>
+                        </div>
+                       </div>
 
-								        	<div class="card" style="width:250px">
-								        		<div class="w3-container w3-center"> 
-								        			<div class="text-center">
-												    	<img class="card-img-center" src="{{ Patient_logged_in.0.Profile_pic.url }}" alt="Card image"   style="width:80%" >
-													</div>
-													<div class="container">
-														    <h4><b>{{ user.get_username }}</b></h4> 
-														    <div class="float-right"> 
-														     		<a href="{%url 'logout'%}" class="btn btn-primary float-right">Logout</a>
-														  	</div>
-													</div>
-												</div>
-											 </div>
-											 <!--
-								         	<li role="presentation"><a role="menuitem">Signed In as</a></li>
-									      	<li role="presentation"><a role="menuitem" tabindex="-1"> {{ user.get_username }}</a></li>
-									      	<li role="presentation" class="divider"></li>
-									      	<li role="presentation"><a role="menuitem" tabindex="-1" href="{%url 'logout'%}">Logout</a></li>
-								        -->
-								        </ul>
-								</li>
-					        </ul>
-					    {%endif%}
-					    </div><!-- /navbar-collapse -->
-					  </div><!-- / .container-fluid -->
-					</nav>
-				</div>
-			</div>
-		</div>
-	</header> <!-- end of header area -->
-
+                       <!--
+                          <li role="presentation"><a role="menuitem">Signed In as</a></li>
+                          <li role="presentation"><a role="menuitem" tabindex="-1"> {{ user.get_username }}</a></li>
+                          <li role="presentation" class="divider"></li>
+                          <li role="presentation"><a role="menuitem" tabindex="-1" href="{%url 'logout'%}">Logout</a></li>
+                        -->
+                        </ul>
+                </li>
+                  </ul>
+                
+              {% endif %}
+                </ul> 
+              </div><!-- /navbar-collapse -->
+            </div><!-- / .container-fluid -->
+          </nav>
+        </div>
+      </div>
+    </div>
+  </header> <!-- end of header area -->
 	
 	<!-- team section -->
 	<section class="team" id="team">

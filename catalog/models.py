@@ -106,10 +106,10 @@ class medicine(models.Model):
 
 
 class historydata(models.Model):
-    u_id=models.ForeignKey(User,on_delete=models.CASCADE)
-    Doctor_id=models.ForeignKey(Doctor,on_delete=models.CASCADE ,default="")
+    u_id=models.CharField(max_length=100)
+    Doctor_id=models.CharField(max_length=100,default="")
     date=models.DateField()
-    Med_1=models.ForeignKey(medicine,on_delete=models.CASCADE)
+    Med_1=models.CharField(max_length=120)
     m1_days=models.CharField(max_length=100)
     m1_times_a_day=models.CharField(max_length=100)
     '''Med_2=models.ForeignKey(medicine,on_delete=models.CASCADE,related_name='m2')
@@ -125,6 +125,9 @@ class historydata(models.Model):
     m5_days=models.CharField(max_length=100)
     m5_times_a_day=models.CharField(max_length=100)'''
     description=models.CharField(max_length=300)
+
+    def __str__(self):
+             return '{0} {1}'.format(self.date,self.Doctor_id)
 
     
         

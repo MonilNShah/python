@@ -8,35 +8,32 @@
 </form>
 -->
 
-
-
-
+{% load static%}
 <!DOCTYPE html>
-{% load staticfiles%}
 <html lang="en"> 
 <head>
-  <!-- To Load Css For DropDown -->
-  <!-- If Above One doesn't Work For dropdowm
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-  -->
-
-  <!-- Load Css For DropDown -->
+ <!-- Load Css For DropDown -->
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
   <script src="https://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
   <link rel="stylesheet" type="text/css" href="https://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
 
-  <!-- Ends Here -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
 
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <!-- <meta name="viewport" content="width=device-width, initial-scale=1.0"> -->
   <!--===============================================================================================-->  
     <meta name="description" content="">
     <!--===============================================================================================-->  
     <meta name="author" content="">
     <!--===============================================================================================-->  
-  <title>DOCTOR - Responsive HTML &amp; Bootstrap Template</title>
+  <title>Appointment Management</title>
   <link rel="stylesheet" href="{% static 'main/css/font-awesome.min.css' %} ">
   <!--===============================================================================================-->  
   <link rel="stylesheet" href="{% static 'main/css/bootstrap.min.css' %}">
@@ -55,12 +52,11 @@
       <script src="js/respond.min.js"></script>
     <![endif]-->
 
-</head>
 <body>
   
   <!-- ====================================================
   header section -->
-  <header class="top-header">
+    <header class="top-header">
     <div class="container">
       <div class="row">
         <div class="col-xs-2 header-logo">
@@ -78,20 +74,19 @@
                   <span class="icon-bar"></span>
                   <span class="icon-bar"></span>
                   <span class="icon-bar"></span>
-                  <span class="icon-bar"></span>
-                  <span class="icon-bar"></span>
-                  <span class="icon-bar"></span>
                 </button>
               </div>
 
               <!-- Collect the nav links, forms, and other content for toggling -->
               <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-              <ul class="nav navbar-nav navbar-left">
-                  <li><a class="menu" href="{% url 'home' %}">Home</a></li>
-                  <li><a class="menu" href="{% url 'aboutus' %}">About us</a></li>
-                  <li><a class="menu" href="{% url 'service' %}">Our Services </a></li>
+                
+                <ul class="nav navbar-nav navbar-left">
+                  <li><a class="menu " href="{% url 'home' %}">Home</a></li>
+                  <li><a class="menu " href="{% url 'aboutus' %}">About Us</a></li>
+                  <li><a class="menu" href="{% url 'service' %}">Specialities </a></li>
                   <li><a class="menu" href="{% url 'team' %}">Our Team</a></li>
                   {% if user.is_authenticated %}
+                  <p>HELLO</p>
                     {% if Patient_logged_in %}
                          <li class="dropdown">
                               <button class="dropbtn">Appointment</button>
@@ -106,14 +101,17 @@
                        <li><a class="menu" href="#history"> History</a></li>
                     {% endif %}
                     {% if Doctor_logged_in %}
-                       <li><a class="menu" href="#givemed">Give Medicine</a></li>
-                        <li><a class="menu" href="{% url 'viewapoint'%}">View Appointment</a></li>
+                       <li><a class="menu active" href="{% url 'givemedicine' %}">Give Medicine</a></li>
+                      <li><a class="menu" href="{% url 'viewapoint'%}">View Appointment</a></li>
+                    {% endif %}
+                    {% if Staff_logged_in %}
+                           <li><a class="menu active " href="{% url 'viewapoint'%}">View Appointment</a></li>
                     {% endif %}
                     <li><a class="menu" href="{% url 'contact' %}"> Contact Us</a></li>
                   </ul>
-                  <ul class="nav navbar-nav navbar-right">
+                 <ul class="nav navbar-nav navbar-right">
                     <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href=""><span class="glyphicon glyphicon-log-out" ></span>
-                        <span class="caret"></span></a>
+                    <span class="caret"></span></a>
                         <ul class="dropdown-menu">
                           <!--<div class="card">
                         <img src="{{ Patient_logged_in.0.Profile_pic.url }}" alt="Card image"  style="width:50%">
@@ -123,19 +121,34 @@
                            <a href="{%url 'logout'%}" class="btn btn-primary float-right">Logout</a>
                         </div>
                       </div>-->
-
+                       {% if Patient_logged_in %}
                           <div class="card" style="width:250px">
                             <div class="w3-container w3-center"> 
                               <div class="text-center">
                               <img class="card-img-center" src="{{ Patient_logged_in.0.Profile_pic.url }}" alt="Card image"   style="width:80%" >
                           </div>
-                        <div class="container">
-                          <h4><b>{{ user.get_username }}</b></h4> 
-                          <div class="float-right"> 
-                           <a href="{%url 'logout'%}" class="btn btn-primary float-right">Logout</a>
+                        {% endif %}
+                        {% if Doctor_logged_in %}
+                          <div class="card" style="width:250px">
+                            <div class="w3-container w3-center"> 
+                              <div class="text-center">
+                              <img class="card-img-center" src="{{ Doctor_logged_in.0.Profile_pic.url }}" alt="Card image"   style="width:80%" >
+                          </div>
+                        {% endif %}
+                        {% if Staff_logged_in %}
+                          <div class="card" style="width:250px">
+                            <div class="w3-container w3-center"> 
+                              <div class="text-center">
+                              <img class="card-img-center" src="{{ Staff_logged_in.0.Profile_pic.url }}" alt="Card image"   style="width:80%" >
+                          </div>
+                        {% endif %}
+                          <div class="container">
+                                <h4><b>{{ user.get_username }}</b></h4> 
+                                <div class="float-right"> 
+                                    <a href="{%url 'logout'%}" class="btn btn-primary float-right">Logout</a>
+                                </div>
+                          </div>
                         </div>
-                      </div>
-                      </div>
                        </div>
 
                        <!--
@@ -147,28 +160,9 @@
                         </ul>
                 </li>
                   </ul>
-                  <defs>
-                      <pattern id="img1" patternUnits="userSpaceOnUse" width="100" height="100">
-                        <image src="{{ Patient_logged_in.0.Profile_pic.url }}" x="0" y="0" width="50" height="50" />
-                      </pattern>
-              </defs>
-
-                <path d="M08 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"
-                  fill="url(#img1)" />
-                  <!-- d="M5,50
-                         l0,100 l100,0 l0,-100 l-100,0
-                         M215,100
-                         a50,50 0 1 1 -100,0 50,50 0 1 1 100,0
-                         M265,50
-                         l50,100 l-100,0 l50,-100
-                         z" -->
-
-                  <svg fill="#000000" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"/>
-                    <path d="M0 0h24v24H0z" fill="none"/>
-                </svg>
-
-              {%endif%}
+                  
+              {% endif %}
+                </ul> 
               </div><!-- /navbar-collapse -->
             </div><!-- / .container-fluid -->
           </nav>
@@ -182,7 +176,7 @@
       <div class="row">
         <!-- <div class="contact-caption clearfix"> -->
           <!-- <div class="contact-heading text-center"> -->
-        <h2>Take Apoint</h2>
+        <h2>Give Medicine</h2>
   
                         <!-- 
                           2nd Option 
@@ -242,58 +236,93 @@
         {% csrf_token %}
         {{ Appoint_med.non_field_errors }}
         <div class="form-group row">
-                <label for="colFormLabelSm" class="col-sm-2 col-form-label col-form-label-sm">Med 1</label>
+                <label for="colFormLabelSm" class="col-sm-2 col-form-label col-form-label-sm">User Id</label>
                 <div class="col-sm-2">
-                      <select class="form-control" id="id_u_id" name="u_id" for="{{Appoint_med.u_id.id_for_label }}">
+                  <datalist id="userlist">
+                     {%for u in user%}
+                            <option value="{{u.u_id}}"></option>
+                      {%endfor%}  
+                  </datalist>
+                   <input type="text" class="form-control form-control-sm" id="id_u_id" name="u_id" for="{{  Appoint_med.u_id.id_for_label }} placeholder="Enter Appointment Date" list="userlist">
+                  <!-- <input type="input"   id="id_u_id" name="u_id" for="{{Appoint_med.u_id.id_for_label }}"> -->
+                      
+                      <!--<select class="form-control" id="id_u_id" name="u_id" for="{{Appoint_med.u_id.id_for_label }}">
                         <option value=" ">------</option>
                         {%for u in user%}
                             <option value="{{u.u_id}}">{{u.u_id}}</option>
                         {%endfor%} 
-                      </select>
+                      </select>-->
                 </div>
           </div>
             {{ Appoint_med.u_id.errors }}
           <div class="form-group row">
-              <label for="colFormLabelSm" class="col-sm-2 col-form-label col-form-label-sm">Date</label>
-              <div class="col-sm-2">
-                <input type="date" class="form-control form-control-sm" id="id_date" name="date" for="{{  Appoint_med.date.id_for_label }} placeholder="Enter Appointment Date">
-                <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone.</small>
-              </div>
-          </div>
-          {{ Appoint_med.date.errors }}
-          <div class="form-group row">
-                <label for="colFormLabelSm" class="col-sm-2 col-form-label col-form-label-sm">Med 1</label>
+                <label for="colFormLabelSm" class="col-sm-2 col-form-label col-form-label-sm">Medicine </label>
                 <div class="col-sm-2">
-                      <select class="form-control" id="id_Med_1" name="Med_1" for="{{Appoint_med.Med_1.id_for_label }}">
+                  <datalist id="doclist">
+                      {%for md in medicine%}
+                            <option value="{{md}}"></option>
+                        {%endfor%} 
+                  </datalist>
+                   <input type="text" class="form-control form-control-sm" id="id_Med_1" name="Med_1" for="{{  Appoint_med.Med_1.id_for_label }}"    list="doclist">
+                      <!--<select class="form-control" id="id_Med_1" name="Med_1" for="{{Appoint_med.Med_1.id_for_label }}">
                         <<option value=" ">------</option>
                         {%for md in medicine%}
                             <option value="{{md}}">{{md}}</option>
                         {%endfor%} 
-                      </select>
+                      </select>-->
                 </div>
           </div>
           {{ Appoint_med.Med_1.errors }}
           <div class="form-group row">
-                <label for="colFormLabelSm" class="col-sm-2 col-form-label col-form-label-sm">Med 1</label>
+                <label for="colFormLabelSm" class="col-sm-2 col-form-label col-form-label-sm">How Many Days</label>
                 <div class="col-sm-2">
+                  <datalist id="hmanydays">
+                            <option value=" ---------"></option>
+                            <option value="One day"></option>
+                            <option value="Two days"></option>
+                            <option value="Three days"></option>
+                            <option value="One Week"></option>
+                            <option value="One Month"></option>
+                            <option value="15 Days"></option>
+                            <option value="Two Months"></option>
+                  </datalist>
+                   <input list="hmanydays" type="text" class="form-control form-control-sm" id="id_m1_days" name="m1_days" for="{{  Appoint_med.m1_days.id_for_label }}">
+                      <!--
+                        Another Method
                       <select class="form-control" id="id_m1_days" name="m1_days" for="{{Appoint_med.m1_days.id_for_label }}">
                         <option value=" ">------</option>
                             <option value="one days">One days</option>
                              <option value="two days">Two days</option>
                               <option value="three days">Three days</option>
-                      </select>
+                      </select>-->
                 </div>
           </div>
            {{ Appoint_med.m1_days.errors }}
           <div class="form-group row">
-                <label for="colFormLabelSm" class="col-sm-2 col-form-label col-form-label-sm">Med 1</label>
+                <label for="colFormLabelSm" class="col-sm-2 col-form-label col-form-label-sm">Times A day</label>
                 <div class="col-sm-2">
-                      <select class="form-control" id="id_m1_times_a_day" name="m1_times_a_day" for="{{  Appoint_med.m1_times_a_day.id_for_label }}">
+                  <datalist id="hmanytimesadays">
+                            <option value=" ----------"></option>
+                            <option value="Once a day"></option>
+                             <option value="Twice a day"></option>
+                              <option value="Thrice a day"></option> 
+                  </datalist>
+                   <input type="text" class="form-control form-control-sm" id="id_m1_times_a_day" name="m1_times_a_day" for="{{  Appoint_med.m1_times_a_day.id_for_label }}" list="hmanytimesadays">
+                      
+
+                    <!--Another option  
+                    <select class="form-control" id="id_m1_times_a_day" name="m1_times_a_day" for="{{  Appoint_med.m1_times_a_day.id_for_label }}">
                         <option value=" ">------</option>
                          <option value="once a day">Once  a day</option>
                              <option value="twice a day">Twice a day</option>
                               <option value="thrice a day">Thrice a day</option> 
-                      </select>
+                      </select>-->
+          </div>
+        </div>
+          <div class="form-group row">
+                <label for="colFormLabelSm" class="col-sm-2 col-form-label col-form-label-sm">Description</label>
+                <div class="col-sm-2">
+                      <input class="form-control" type="text" id="id_description" name="description" for="{{Appoint_med.description.id_for_label }}">
                 </div>
           </div>
            {{ Appoint_med.m1_times_a_day.errors }}

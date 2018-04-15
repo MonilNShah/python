@@ -72,7 +72,7 @@
               <ul class="nav navbar-nav navbar-left">
                   <li><a class="menu" href="{% url 'home' %}">Home</a></li>
                   <li><a class="menu" href="{% url 'aboutus' %}">About us</a></li>
-                  <li><a class="menu" href="{% url 'service' %}">Our Services </a></li>
+                  <li><a class="menu" href="{% url 'service' %}">Specialities </a></li>
                   <li><a class="menu" href="{% url 'team' %}">Our Team</a></li>
                   {% if user.is_authenticated %}
                     {% if Patient_logged_in %}
@@ -82,14 +82,14 @@
                                     <ul class="dropdown1"> 
                                         <li><a class ="menu" href="{% url 'takeapoint' %}">Make Appointment</a></li>
                                         <li><a  class ="menu" href="{% url 'cancelapoint' %}">Cancel Appointment</a></li>
-                                        <li><a class ="menu" href="#">My Appointments</a></li>
+                                        <li><a class ="menu" href="{% url 'myappoint' %}">My Appointments</a></li>
                                     </ul>
                                 </div> 
                         </li>
-                       <li><a class="menu" href="#history"> History</a></li>
+                       <li><a class="menu" href="{% url 'history' %}"> History</a></li>
                     {% endif %}
                     {% if Doctor_logged_in %}
-                       <li><a class="menu" href="#givemed">Give Medicine</a></li>
+                       <li><a class="menu" href="{% url 'givemedicine' %}">Give Medicine</a></li>
                         <li><a class="menu" href="{% url 'viewapoint'%}">View Appointment</a></li>
                     {% endif %}
                     
